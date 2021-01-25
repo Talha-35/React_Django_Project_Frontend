@@ -13,7 +13,7 @@ import InputBase from '@material-ui/core/InputBase';
 import Avatar from '@material-ui/core/Avatar';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import logo from '../assets/dj.png'
-import logo2 from '../assets/react.png'
+// import logo2 from '../assets/react.png'
 
 
 

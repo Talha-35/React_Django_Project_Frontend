@@ -24,6 +24,9 @@ import {
     withStyles,
     
   } from '@material-ui/core/styles';
+  import Button from '@material-ui/core/Button';
+  import Icon from '@material-ui/core/Icon';
+  
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +34,16 @@ const useStyles = makeStyles((theme) => ({
     marginTop : 50,
     paddingRight : 150,
     paddingLeft : 150
+  },
+  
+  button: {
+    margin: theme.spacing(1),
+    height:55
+  },
+
+  commentForm:{
+    display:"flex", 
+    alignItems:"flex-end"
   },
   root2: {
     maxWidth: 350,
@@ -57,27 +70,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CssTextField = withStyles({
-    root: {
-      '& label.Mui-focused': {
-        color: 'green',
-      },
-      '& .MuiInput-underline:after': {
-        borderBottomColor: 'green',
-      },
-      '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-          borderColor: 'red',
-        },
-        '&:hover fieldset': {
-          borderColor: 'yellow',
-        },
-        '&.Mui-focused fieldset': {
-          borderColor: 'green',
-        },
-      },
-    },
-  })(TextField);
+
+
+
 export default function CardDetail() {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -127,27 +122,41 @@ export default function CardDetail() {
         </IconButton>
         <IconButton
           className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
+              [classes.expandOpen]: expanded,
+            })}
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
         >
           <ExpandMoreIcon />
+
         </IconButton>
+          <Typography style={{color:"#187965"}}>See Comments</Typography>
       </CardActions>
-
-      <Typography>Comments</Typography>
-
-      <form className={classes.root} noValidate>
-        <CssTextField className={classes.margin} id="custom-css-standard-input" label="Type your comment" />
-        {/* <CssTextField
-            className={classes.margin}
-            label="Custom CSS"
-            variant="outlined"
-            id="custom-css-outlined-input"
-        /> */}
-        </form>
+      
+      <form className={classes.commentForm}>
+        <TextField
+            id="filled-full-width"
+            style={{display:"inline-block", float:"right"}}
+            label="Comments"
+            style={{ margin: 8, maxWidth: "%50" }}
+            placeholder="leave your Comment"          
+            fullWidth
+            margin="normal"
+            InputLabelProps={{
+                shrink: true,
+            }}
+            variant="filled"
+            />
+            
+        <Button
+            style={{fontWeight:"bold"}}
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            endIcon={<Icon>send</Icon>}
+        >Send</Button>
+      </form>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Method:</Typography>
