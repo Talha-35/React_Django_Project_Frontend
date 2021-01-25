@@ -16,14 +16,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Collapse from '@material-ui/core/Collapse';
-// import MoreVertIcon from '@material-ui/icons/MoreVert';
-// import foto from "../assets/react.png";
 import TextField from '@material-ui/core/TextField';
-import {
-
-    withStyles,
-    
-  } from '@material-ui/core/styles';
   import Button from '@material-ui/core/Button';
   import Icon from '@material-ui/core/Icon';
   
@@ -43,7 +36,8 @@ const useStyles = makeStyles((theme) => ({
 
   commentForm:{
     display:"flex", 
-    alignItems:"flex-end"
+    alignItems:"flex-end",
+    marginBottom : 30
   },
   root2: {
     maxWidth: 350,
@@ -139,7 +133,7 @@ export default function CardDetail() {
             id="filled-full-width"
             style={{display:"inline-block", float:"right"}}
             label="Comments"
-            style={{ margin: 8, maxWidth: "%50" }}
+            // style={{ margin: 8, maxWidth: "%50" }}
             placeholder="leave your Comment"          
             fullWidth
             margin="normal"
@@ -152,7 +146,7 @@ export default function CardDetail() {
         <Button
             style={{fontWeight:"bold"}}
             variant="contained"
-            color="primary"
+            color="secondary"
             className={classes.button}
             endIcon={<Icon>send</Icon>}
         >Send</Button>
