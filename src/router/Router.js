@@ -7,6 +7,7 @@ import RegisterPage from '../pages/RegisterPage';
 import ProfilePage from '../pages/ProfilePage';
 import LoginPage from '../pages/LoginPage';
 import PostPage from '../pages/PostPage';
+import UpdatePage from '../pages/UpdatePage';
 
 const AppRouter = () => {
     return (
@@ -19,6 +20,7 @@ const AppRouter = () => {
           <Route path="/login" component={LoginPage} />
           <Route path="/profile" component={ProfilePage} />
           <Route path="/post" component={PostPage} />
+          <Route path="/update" component={UpdatePage} />
         </Switch>
         {/* <FootBar /> */}
       </Router>
