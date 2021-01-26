@@ -42,6 +42,8 @@ const CssTextField = withStyles({
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
+    width : '100%',
+    overflow : 'hidden'
   },  
   paper: {
     margin: theme.spacing(8, 4),
@@ -49,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    // backgroundColor: "yellow",
   },
   avatar: {
     margin: theme.spacing(1),
@@ -59,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "3rem",
     alignItems: "center",
     paddingLeft: "10%",
-    width : '80%',
+    width : '100%',
   },
   form2: {
     marginTop: "3rem",

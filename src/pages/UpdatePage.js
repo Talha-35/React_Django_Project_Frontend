@@ -42,6 +42,8 @@ const CssTextField = withStyles({
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
+    width : '100%',
+    overflow : 'hidden'
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -54,17 +56,17 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
   },
-
   form: {
     marginTop: "3rem",
     alignItems: "center",
-    width : '80%',
     paddingLeft: "10%",
+    width : '100%',
   },
   form2: {
     marginTop: "3rem",
     alignItems: "center",
     width : '100%',
+
   },
   margin: {
     margin: 2,
@@ -108,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
 const UpdatePage = () => {
 
   const classes = useStyles();
-  const matches = useMediaQuery("(min-width:750px)");
+  const matches = useMediaQuery("(min-width:600px)");
 
   const [state, setState] = React.useState({
     Status: "",
