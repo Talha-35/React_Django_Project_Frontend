@@ -65,8 +65,7 @@ export default function SignUp() {
                   margin="normal"
                   id="username"
                   name="username"
-                  label="Username"
-                 
+                  label="Username"                 
                 />
                 <TextField
                   fullWidth
@@ -82,8 +81,7 @@ export default function SignUp() {
                   id="password"
                   name="password"
                   label="Password"
-                  type="password"
-                 
+                  type="password"                 
                 />
                 <TextField
                   fullWidth
@@ -91,10 +89,7 @@ export default function SignUp() {
                   id="password2"
                   name="password2"
                   label="Password Again"
-                  type="password"
-                 
-    
-                  
+                  type="password"   
                 />
                 <Button
                   color="primary"
