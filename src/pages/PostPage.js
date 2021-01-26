@@ -137,7 +137,7 @@ const PostPage = () => {
   const classes = useStyles();
   const matches = useMediaQuery("(min-width:750px)");
   const [state, setState] = React.useState({
-    age: "",
+    status: "",
     name: "hai",
   });
 
