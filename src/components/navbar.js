@@ -19,7 +19,7 @@ import logo from '../assets/dj.png'
 
 const useStyles = makeStyles((theme) => ({
    font:{
-    fontSize:12,
+    fontSize:11,
     marginLeft:2,
     marginLeft: theme.spacing(-1),
    },
