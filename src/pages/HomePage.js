@@ -1,29 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from 'react';
 import Container from "@material-ui/core/Container";
-// import Typography from "@material-ui/core/Typography";
 import CardList from '../components/CardList';
 import axios from 'axios';
 
-const HomePage = () => {
+// const baseUrl =  'https://blog-backend-ysf.herokuapp.com/list/'
+const baseUrl =  'https://rd-restful-blog.herokuapp.com/list/'
 
-  const fetchData = async () => {
-    const result= await axios.get(
-      'https://rd-restful-blog.herokuapp.com/list/',
-    );
-    console.log("result.data :", result.data)
-    return (result.data)
+
+
+
+
+const HomePage = () => {
+  const [postData, setPostData] = useState([])
+
+  async function fetchData() {
+    try {
+    const results= await axios.get(baseUrl);
+    setPostData(results?.data)
+    } catch (error) {
+      console.error(error);
+    }
 }
 
-useEffect(() =>{
-  const response = fetchData()
-  console.log("response :  ", response)
-
-})
-  
-
+useEffect(() =>{fetchData()},[])
+console.log('post',postData)
   return (
     <Container>
-      <CardList />     
+      <CardList postData = {postData}/>
     </Container>
   );
 };
