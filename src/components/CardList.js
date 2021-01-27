@@ -1,29 +1,37 @@
-import React from "react";
 import Grid from "@material-ui/core/Grid";
-import BlogCard from '../components/BlogCard'
+import BlogCard from "../components/BlogCard";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-const CardList = () => {
+const CardList = ({ postData }) => {
+
+  const matches = useMediaQuery('(min-width:750px)');
+
+  console.log("list", postData);
   return (
-    <Grid container spacing={5}>
-      <Grid item xs={12} sm={4}>
-        <BlogCard />
+    <>
+      <Grid container spacing={5} >
+
+        {postData?.map((post, i) => (
+          <Grid item xs={12} sm={matches ? 4 : 6} key={i}>
+            <BlogCard 
+            key={i}
+            title={post.title}
+            author = {post.author}
+            commentCount = {post.comment_count}
+            id = {post.id}
+            image = {post.image}
+            likeCount = {post.like_count}
+            publishDate = {post.publish_date}
+            content = {post.content}
+            updateDate = {post.update_date}
+            viewCount = {post.view_count}
+            slug={post.slug}
+            />
+          </Grid>
+        ))}
+
       </Grid>
-      <Grid item xs={12} sm={4}>
-        <BlogCard />
-      </Grid>
-      <Grid item xs={12} sm={4}>
-        <BlogCard />
-      </Grid>
-      <Grid item xs={12} sm={4}>
-        <BlogCard />
-      </Grid>
-      <Grid item xs={12} sm={4}>
-        <BlogCard />
-      </Grid>
-      <Grid item xs={12} sm={4}>
-        <BlogCard />
-      </Grid>
-    </Grid>
+    </>
   );
 };
 
