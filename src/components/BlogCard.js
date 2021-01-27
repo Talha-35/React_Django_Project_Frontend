@@ -11,17 +11,21 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
-// import Collapse from '@material-ui/core/Collapse';
-// import MoreVertIcon from '@material-ui/icons/MoreVert';
-// import foto from "../assets/react.png";
+import Badge from '@material-ui/core/Badge';
+import Collapse from '@material-ui/core/Collapse';
+import moment from 'moment';
+import Link from "@material-ui/core/Link";
+// import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    minHeight:'100%',
     maxWidth: 345,
-    marginTop : 50
+    marginTop:50 ,    
   },
   media: {
     height: 0,
@@ -40,9 +44,14 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  header: {
+    textOverflow:'ellipsis',overflow: 'hidden',whiteSpace: 'nowrap'
+  },
 }));
 
-export default function BlogCard() {
+
+
+export default function BlogCard({title,author,commentCount,id,image,likeCount,publishDate,content,updateDate,viewCount, slug}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -50,42 +59,64 @@ export default function BlogCard() {
     setExpanded(!expanded);
   };
 
+  // const matches = useMediaQuery('(min-width:750px)');
+
+  // const titleStyle1 = title.length < 25 ? content : content.substring(0,25) + ' ... '
+  // const titleStyle2 = title.length < 15 ? content : content.substring(0,15) + ' ... '
+
   return (
     <Card className={classes.root}>
-      <CardHeader
+      <Link color='inherit' style={{textDecoration:'none'}} href={`/${slug}/detail/`} >
+      <CardHeader className={classes.header}
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            R
+            {author[0]}
           </Avatar>
         }
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+       
+        title={title}
+        subheader={moment(publishDate).format('LL')}
       />
+      
       <CardMedia
         className={classes.media}
-        image='https://reactjs.org/logo-og.png'
+        image= {image}
         title="Paella dish"
       />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook together with your
-          guests. Add 1 cup of frozen peas along with the mussels, if you like.
+      </Link>
+      <CardContent >
+        <Typography variant="body2" color="textSecondary" component="p" style={{height : 75 , paddingTop : 2}} >
+        {/* style={{textOverflow:'ellipsis',overflow: 'hidden',whiteSpace: 'nowrap'}} */}
+        {content.substring(0,111) + '. . .'}
         </Typography>
       </CardContent>
+      
+      <Collapse in={expanded} timeout="auto" unmountOnExit >
+        <CardContent >
+          <Typography paragraph  >
+            {content.length < 111 ? "No more Content" : '➡️   . . .    ' + content.substring(111,)}
+            </Typography>
+        </CardContent>
+      </Collapse>
+
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
+        <Badge badgeContent={likeCount} color="secondary"> 
           <FavoriteIcon />
+          </Badge>
         </IconButton>
         <IconButton aria-label="Visibility">
+
+          
+        <Badge badgeContent={viewCount} color="secondary"> 
           <VisibilityIcon />
+        </Badge>
         </IconButton>
-        <IconButton aria-label="ChatBubbleOutline">
+        <IconButton aria-label="Comment">
+          
+        <Badge badgeContent={commentCount} color="secondary"> 
           <ChatBubbleOutlineIcon />
+        </Badge>
         </IconButton>
         <IconButton
           className={clsx(classes.expand, {
@@ -98,33 +129,7 @@ export default function BlogCard() {
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
-      {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-            minutes.
-          </Typography>
-          <Typography paragraph>
-            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
-            heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
-            browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
-            and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and
-            pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
-            saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-          </Typography>
-          <Typography paragraph>
-            Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
-            without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
-            medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook
-            again without stirring, until mussels have opened and rice is just tender, 5 to 7
-            minutes more. (Discard any mussels that don’t open.)
-          </Typography>
-          <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then serve.
-          </Typography>
-        </CardContent>
-      </Collapse> */}
+     
     </Card>
   );
 }
