@@ -8,11 +8,12 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100vh",
+    height: "100vh",    
   },
   image: {
     backgroundImage: "url(https://picsum.photos/640/480)",
@@ -45,13 +46,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-  
+  const matches = useMediaQuery('(max-width:1650px)');
 
   return (
-        <Grid container component="main" className={classes.root}>
+        <Grid container component="main" className={classes.root} >
           <CssBaseline />
           <Grid item xs={false} sm={4} md={7} className={classes.image} />
-          <Grid item xs={12} sm={8} md={5}  elevation={6} square>
+          <Grid item xs={12} sm={8} md={5}  elevation={6} square style={{marginTop : matches ? null : 150}}>
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>
                 <VpnKeyIcon />
