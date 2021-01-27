@@ -12,7 +12,7 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100%",
+    height: "100vh",
   },
   image: {
     backgroundImage: "url(https://picsum.photos/640/480)",
