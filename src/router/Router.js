@@ -1,4 +1,5 @@
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import React from "react";
 
 import Navbar from '../components/Navbar';
 import DetailPage from '../pages/DetailPage';
@@ -9,13 +10,14 @@ import LoginPage from '../pages/LoginPage';
 import PostPage from '../pages/PostPage';
 import UpdatePage from '../pages/UpdatePage';
 
+
 const AppRouter = () => {
     return (
       <Router>
         <Navbar />
         <Switch>
           <Route path="/" component={HomePage} exact />
-          <Route path="/detail" component={DetailPage} />
+          <Route path="/:slug/detail" component={DetailPage} />
           <Route path="/register" component={RegisterPage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/profile" component={ProfilePage} />
