@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,11 +12,18 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios'
+import { fetchData } from "../helper/FetchData";
+import { useHistory, Redirect } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
+
+
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {'Copyright ©️ '}
       <Link color="inherit" href="https://material-ui.com/">
         Your Website
       </Link>{' '}
@@ -47,7 +54,52 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LoginPage() {
+  let history = useHistory();
+  const { setLoggedIn, setCurrentUser} = useContext(AuthContext);
   const classes = useStyles();
+  const [username, setUsername] = React.useState("")
+  const [password, setPassword] = React.useState("")
+  
+  // const [state, setState] = React.useState({
+  //   username: '',
+  //   password:''
+  // });
+
+  
+   const handleUsername = (event) => {
+      const name = event.target.value;
+      setUsername(name);
+      console.log(username)
+  };
+   const handlePassword = (event) => {
+      const name = event.target.value;
+      setPassword(name);
+      console.log(password)
+  };
+  
+  const postLogin = async () => {
+    console.log("hello from login")
+    fetchData("https://blog-backend-ysf.herokuapp.com/auth/login/", {
+        username,
+        password
+      })
+      .then((data) => {
+        if (data.key){
+          localStorage.setItem("Token", data.key);
+          localStorage.setItem('currentUser',username)
+          localStorage.setItem('isLoggedIn',true)
+          history.push("/");
+          
+        }
+      })
+      .catch((err) => {
+        toast(err?.message || "An error occured");
+      });
+  
+    }
+   
+
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -59,8 +111,20 @@ export default function LoginPage() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        {/* <form className={classes.form} noValidate method="POST"> */}
           <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
+            onChange={handleUsername}
+            autoFocus
+          />
+          {/* <TextField
             variant="outlined"
             margin="normal"
             required
@@ -69,8 +133,9 @@ export default function LoginPage() {
             label="Email Address"
             name="email"
             autoComplete="email"
+            onChange={handleChange}
             autoFocus
-          />
+          /> */}
           <TextField
             variant="outlined"
             margin="normal"
@@ -81,6 +146,7 @@ export default function LoginPage() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={handlePassword}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -92,9 +158,12 @@ export default function LoginPage() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={() => {postLogin()}}
+            
           >
             Sign In
           </Button>
+        {/* </form> */}
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -107,7 +176,7 @@ export default function LoginPage() {
               </Link>
             </Grid>
           </Grid>
-        </form>
+        
       </div>
       <Box mt={8}>
         <Copyright />
@@ -115,3 +184,16 @@ export default function LoginPage() {
     </Container>
   );
 }
+
+//  const handleChange = (event) => {
+  //     const name = event.target.name;
+  //     setState({
+  //        ...state,
+  //        [name]: event.target.value,
+  //     });
+  //     console.log(state)
+  // };
+
+  // const handleSubmit = async () => {
+  //   const obj= {...state}
+  //   console.log(obj)
