@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React,{useContext} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,14 +12,17 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import axios from 'axios'
 import { fetchData } from "../helper/FetchData";
-import { useHistory, Redirect } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
-import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import {toast,ToastContainer} from 'react-toastify'
+import {useFormik} from 'formik'
+import * as Yup from "yup";
+
+import { AuthContext } from '../context/AuthContext'
 
 
 
+// FOOTER
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -33,6 +36,8 @@ function Copyright() {
   );
 }
 
+
+// STYLE
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -55,63 +60,73 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage() {
   let history = useHistory();
-  const { setLoggedIn, setCurrentUser} = useContext(AuthContext);
   const classes = useStyles();
-  const [username, setUsername] = React.useState("")
-  const [password, setPassword] = React.useState("")
-  
-  // const [state, setState] = React.useState({
-  //   username: '',
-  //   password:''
-  // });
 
+const validationSchema = Yup.object().shape({
+ username: Yup.string()
+    .required('You must enter an username')
+    .max(100,'not invalid username'),
+ password: Yup.string()
+    .required("No password provided.")
+    .min(8, "Password is too short - should be 8 chars minimum."),
+})
+
+const initialValues = {
+  username:'',
+  password:''
+}
+// const { currentUser, setCurrentUser } = useContext(AuthContext)
+
+const onSubmit = async(values) => {
+  fetchData("https://blog-backend-ysf.herokuapp.com/auth/login/", 
+      values
+    )
+    .then((data) => {
+      if (data.key){
+        localStorage.setItem("Token", data.key);
+        localStorage.setItem('currentUser',values.username)
+        localStorage.setItem('isLoggedIn',true)
+        history.push("/");
+      }
+    }).catch((err) => {
+        console.log(err)
+    })
+  }
+
+
+const formik = useFormik({
+  initialValues,
+  validationSchema,
+  onSubmit
   
-   const handleUsername = (event) => {
-      const name = event.target.value;
-      setUsername(name);
-      console.log(username)
-  };
-   const handlePassword = (event) => {
-      const name = event.target.value;
-      setPassword(name);
-      console.log(password)
-  };
-  
-  const postLogin = async () => {
-    console.log("hello from login")
-    fetchData("https://blog-backend-ysf.herokuapp.com/auth/login/", {
-        username,
-        password
-      })
-      .then((data) => {
-        if (data.key){
-          localStorage.setItem("Token", data.key);
-          localStorage.setItem('currentUser',username)
-          localStorage.setItem('isLoggedIn',true)
-          history.push("/");
-          
-        }
-      })
-      .catch((err) => {
-        toast(err?.message || "An error occured");
-      });
-  
-    }
-   
+})
 
 
 
   return (
+    
     <Container component="main" maxWidth="xs">
+   
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
+        <ToastContainer 
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+          
+            pauseOnHover/>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        {/* <form className={classes.form} noValidate method="POST"> */}
+        <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
+        // TODO: toast ile hata verdirilecek
           <TextField
             variant="outlined"
             margin="normal"
@@ -121,21 +136,16 @@ export default function LoginPage() {
             label="Username"
             name="username"
             autoComplete="username"
-            onChange={handleUsername}
             autoFocus
+            onChange={formik.handeChange}
+            value = {formik.values.username}
+            onBlur={formik.handleBlur}
+            {...formik.getFieldProps('username')}
+            error={formik.touched.username && formik.errors.username}
+            helperText={formik.touched.username && formik.errors.username}
+            
           />
-          {/* <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            onChange={handleChange}
-            autoFocus
-          /> */}
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -146,7 +156,12 @@ export default function LoginPage() {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={handlePassword}
+            onChange={formik.handleChange}
+            value = {formik.values.password}
+            onBlur={formik.handleBlur}
+            {...formik.getFieldProps('password')}
+            error={formik.touched.password && formik.errors.password}
+            helperText={formik.touched.password && formik.errors.password}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -157,13 +172,11 @@ export default function LoginPage() {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
-            onClick={() => {postLogin()}}
-            
+            className={classes.submit} 
           >
             Sign In
           </Button>
-        {/* </form> */}
+        </form>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -185,15 +198,3 @@ export default function LoginPage() {
   );
 }
 
-//  const handleChange = (event) => {
-  //     const name = event.target.name;
-  //     setState({
-  //        ...state,
-  //        [name]: event.target.value,
-  //     });
-  //     console.log(state)
-  // };
-
-  // const handleSubmit = async () => {
-  //   const obj= {...state}
-  //   console.log(obj)

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect,} from 'react';
+import React,{useContext,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -22,179 +22,183 @@ import { Paper } from '@material-ui/core';
 
 
 
+
+
 const useStyles = makeStyles((theme) => ({
-   font:{
-    fontSize:10,
-    marginLeft:2,
-    marginLeft: theme.spacing(-1),
-   },
-   small: {
-    width: theme.spacing(5),
-    height: theme.spacing(5),
+  font:{
+   fontSize:10,
+   marginLeft:2,
+   marginLeft: theme.spacing(-1),
   },
-  root: {
-    flexGrow: 1,
-    overflow:'hidden'
-  },
-  menuButton: {
-    marginRight: theme.spacing(),
-  },
-  title: {
-    flexGrow: 1,
-  },
+  small: {
+   width: theme.spacing(5),
+   height: theme.spacing(5),
+ },
+ root: {
+   flexGrow: 1,
+   overflow:'hidden'
+ },
+ menuButton: {
+   marginRight: theme.spacing(),
+ },
+ title: {
+   flexGrow: 1,
+ },
+ 
+ search: {
+   position: 'relative',
+   borderRadius: theme.shape.borderRadius,
   
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-   
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    }
+   marginLeft: 0,
+   width: '100%',
+   [theme.breakpoints.up('sm')]: {
+     marginLeft: theme.spacing(1),
+     width: 'auto',
+   },
+ },
+ searchIcon: {
+   padding: theme.spacing(0, 2),
+   height: '100%',
+   position: 'absolute',
+   pointerEvents: 'none',
+   display: 'flex',
+   alignItems: 'center',
+   justifyContent: 'center',
+ },
+ inputRoot: {
+   color: 'inherit',
+ },
+ inputInput: {
+   padding: theme.spacing(1, 1, 1, 0),
+   // vertical padding + font size from searchIcon
+   paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+   transition: theme.transitions.create('width'),
+   width: '100%',
+   [theme.breakpoints.up('sm')]: {
+     width: '12ch',
+     '&:focus': {
+       width: '20ch',
+     },
+   }
 }
 
-  
+ 
 }));
 
 
 export default function Navbar() {
-  const { setLoggedIn, currentUser, setCurrentUser } = useContext(AuthContext);
-  let history = useHistory();
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleMenu = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-  const handleClose = (path) => {
-      setAnchorEl(null);
-      if (path===''){
-        postLogout()
-      }
-      history.push(path)
-    };
-  const open = Boolean(anchorEl);
- 
-  const matches = useMediaQuery('(min-width:750px)');
+ const { setLoggedIn, currentUser, setCurrentUser } = useContext(AuthContext);
+ let history = useHistory();
+ const classes = useStyles();
+ const [anchorEl, setAnchorEl] = React.useState(null);
+ const handleMenu = (event) => {
+     setAnchorEl(event.currentTarget);
+   };
+ const handleClose = (path) => {
+     setAnchorEl(null);
+     if (path===''){
+       postLogout()
+     }
+     history.push(path)
+   };
+ const open = Boolean(anchorEl);
 
-  const postLogout = async () =>{
-    await axios.post("https://blog-backend-ysf.herokuapp.com/auth/logout/")
-    localStorage.setItem("Token", "")
-    localStorage.setItem("currentUser", "")
-    localStorage.setItem("isLoggedIn", false)
-    history.push('/')
-    
-    
-    };
-  // useEffect(() =>{
+ const matches = useMediaQuery('(min-width:750px)');
 
-  // }, [localStorage.getItem('Token')])
+ const postLogout = async () =>{
+   await axios.post("https://rd-restful-blog.herokuapp.com/auth/logout/")
   
-
-  return (
-    <div className={classes.root}>
+   localStorage.setItem("Token", "")
+   localStorage.setItem("currentUser", "")
+   localStorage.setItem("isLoggedIn", false)
+   history.push('/')
    
-      <AppBar position="static">
-        <Toolbar>
-          <Link href="/" >
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          <Avatar alt="Remy Sharp" src={logo} className={classes.small} />
-          </IconButton>
-          </Link>
-          <Typography variant="h6" className={classes.title}>
-          Blog
-          </Typography>
+   
+   };
+ // useEffect(() =>{
 
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
-              {
-                ! localStorage.getItem("Token") ?
-                <>
-                  <Link href="/login" color="inherit" style={{textDecoration:'none'}}>
-                  <Button color="inherit" className={matches ? null :classes.font}> Login</Button>
-                  </Link>
-                  <Link href="/register" color="inherit" style={{textDecoration:'none'}}>
-                  <Button color="inherit" className={matches ? null :classes.font}>Register</Button>
-                  </Link>
-                </>:
-                null
-              }
+ // }, [localStorage.getItem('Token')])
+ 
 
-          {
-            localStorage.getItem("Token") ?
-              <>
-              <Typography>{localStorage.getItem('currentUser')}</Typography>
-                <IconButton
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={open}
-                    onClose={handleClose}
-                  >
-                        <MenuItem onClick={() =>handleClose('/create')}>New Post</MenuItem>
-                        <MenuItem onClick={() =>handleClose('/profile')}>Profile</MenuItem>
-                        <MenuItem onClick={() =>handleClose('')}>Logout</MenuItem>
-                      
-                  </Menu>
-              </>
-                  : null
-                }
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+ return (
+   <div className={classes.root}>
+  
+     <AppBar position="static">
+       <Toolbar>
+         <Link href="/" >
+         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+         <Avatar alt="Remy Sharp" src={logo} className={classes.small} />
+         </IconButton>
+         </Link>
+         <Typography variant="h6" className={classes.title}>
+         Blog
+         </Typography>
+
+         <div className={classes.search}>
+           <div className={classes.searchIcon}>
+             <SearchIcon />
+           </div>
+           <InputBase
+             placeholder="Search…"
+             classes={{
+               root: classes.inputRoot,
+               input: classes.inputInput,
+             }}
+             inputProps={{ 'aria-label': 'search' }}
+           />
+         </div>
+             {
+               ! localStorage.getItem("Token") ?
+               <>
+                 <Link href="/login" color="inherit" style={{textDecoration:'none'}}>
+                 <Button color="inherit" className={matches ? null :classes.font}> Login</Button>
+                 </Link>
+                 <Link href="/register" color="inherit" style={{textDecoration:'none'}}>
+                 <Button color="inherit" className={matches ? null :classes.font}>Register</Button>
+                 </Link>
+               </>:
+               null
+             }
+
+         {
+           localStorage.getItem("Token") ?
+             <>
+             <Typography>{currentUser}</Typography> 
+             {/* {localStorage.getItem('currentUser')} */}
+               <IconButton
+                 aria-label="account of current user"
+                 aria-controls="menu-appbar"
+                 aria-haspopup="true"
+                 onClick={handleMenu}
+                 color="inherit"
+               >
+                 <AccountCircle />
+               </IconButton>
+                 <Menu
+                   id="menu-appbar"
+                   anchorEl={anchorEl}
+                   anchorOrigin={{
+                     vertical: 'top',
+                     horizontal: 'right',
+                   }}
+                   keepMounted
+                   transformOrigin={{
+                     vertical: 'top',
+                     horizontal: 'right',
+                   }}
+                   open={open}
+                   onClose={handleClose}
+                 >
+                       <MenuItem onClick={() =>handleClose('/create')}>New Post</MenuItem>
+                       <MenuItem onClick={() =>handleClose('/profile')}>Profile</MenuItem>
+                       <MenuItem onClick={() =>handleClose('')}>Logout</MenuItem>
+                     
+                 </Menu>
+             </>
+                 : null
+               }
+       </Toolbar>
+     </AppBar>
+   </div>
+ );
 }

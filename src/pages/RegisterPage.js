@@ -1,3 +1,4 @@
+
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -8,12 +9,14 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-
+import {useFormik} from 'formik'
+import * as Yup from "yup";
+import {useHistory} from 'react-router-dom';
+import { fetchData } from '../helper/FetchData'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100vh",    
+    height: "100vh",
   },
   image: {
     backgroundImage: "url(https://picsum.photos/640/480)",
@@ -44,15 +47,60 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function RegisterPage() {
   const classes = useStyles();
-  const matches = useMediaQuery('(max-width:1650px)');
+  const history = useHistory();
+  
+
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+       .required('You must enter an username')
+       .max(100,'not invalid username'),
+
+    email : Yup.string().email().required('You must enter an invalid Email'),
+    password: Yup.string()
+       .required("No password provided.")
+       .min(8, "Password is too short - should be 8 chars minimum."),
+    password2: Yup.string()
+       .required("No password provided.")
+       .min(8, "Password is too short - should be 8 chars minimum.")
+       .oneOf([Yup.ref('password'),null],'Passwords must match')
+       
+   })
+   
+   const initialValues = {
+     username:'',
+     email:'',
+     password:'',
+     password2:''
+   }
+   
+   
+   const onSubmit = async(values) => {
+     fetchData("https://blog-backend-ysf.herokuapp.com/user/register/", 
+         values
+       )
+       .then((data) => {
+          history.push("/login");
+     
+       }).catch((err) => {
+           console.log(err)
+       })
+     }
+   
+   
+   const formik = useFormik({
+     initialValues,
+     validationSchema,
+     onSubmit
+     
+   })
 
   return (
-        <Grid container component="main" className={classes.root} >
+        <Grid container component="main" className={classes.root}>
           <CssBaseline />
           <Grid item xs={false} sm={4} md={7} className={classes.image} />
-          <Grid item xs={12} sm={8} md={5}  elevation={6} square style={{marginTop : matches ? null : 150}}>
+          <Grid item xs={12} sm={8} md={5}  elevation={6} square>
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>
                 <VpnKeyIcon />
@@ -60,13 +108,19 @@ export default function SignUp() {
               <Typography component="h1" variant="h5">
                 Sign Up
               </Typography>
-              <form >
+              <form onSubmit={formik.handleSubmit}>
                 <TextField
                   fullWidth
                   margin="normal"
                   id="username"
                   name="username"
-                  label="Username"                 
+                  label="Username"
+                  onChange={formik.handeChange}
+                  value = {formik.values.username}
+                  onBlur={formik.handleBlur}
+                  {...formik.getFieldProps('username')}
+                  error={formik.touched.username && formik.errors.username}
+                  helperText={formik.touched.username && formik.errors.username}
                 />
                 <TextField
                   fullWidth
@@ -74,7 +128,12 @@ export default function SignUp() {
                   id="email"
                   name="email"
                   label="Email"
-                 
+                  onChange={formik.handeChange}
+                  value = {formik.values.email}
+                  onBlur={formik.handleBlur}
+                  {...formik.getFieldProps('email')}
+                  error={formik.touched.email && formik.errors.email}
+                  helperText={formik.touched.email && formik.errors.email}
                 />
                 <TextField
                   fullWidth
@@ -82,7 +141,14 @@ export default function SignUp() {
                   id="password"
                   name="password"
                   label="Password"
-                  type="password"                 
+                  type="password"
+                  onChange={formik.handeChange}
+                  value = {formik.values.password}
+                  onBlur={formik.handleBlur}
+                  {...formik.getFieldProps('password')}
+                  error={formik.touched.password && formik.errors.password}
+                  helperText={formik.touched.password && formik.errors.password}
+                 
                 />
                 <TextField
                   fullWidth
@@ -90,7 +156,16 @@ export default function SignUp() {
                   id="password2"
                   name="password2"
                   label="Password Again"
-                  type="password"   
+                  type="password"
+                  onChange={formik.handeChange}
+                  value = {formik.values.password2}
+                  onBlur={formik.handleBlur}
+                  {...formik.getFieldProps('password2')}
+                  error={formik.touched.password2 && formik.errors.password2}
+                  helperText={formik.touched.password2 && formik.errors.password2}
+                 
+    
+                  
                 />
                 <Button
                   color="primary"
@@ -117,11 +192,7 @@ export default function SignUp() {
                 </Grid>
               </Grid>
               <Box mt={5}>
-                <Typography 
-                  variant="body2" 
-                  color="textSecondary" 
-                  align="center"
-                >
+                <Typography variant="body2" color="textSecondary" align="center">
                   {"Copyright © "}
                   <Link color="inherit" href="/">
                     Our Website
@@ -135,3 +206,4 @@ export default function SignUp() {
         </Grid>
       );
     };
+    

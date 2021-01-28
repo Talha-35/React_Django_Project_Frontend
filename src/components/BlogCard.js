@@ -59,11 +59,6 @@ export default function BlogCard({title,author,commentCount,id,image,likeCount,p
     setExpanded(!expanded);
   };
 
-  // const matches = useMediaQuery('(min-width:750px)');
-
-  // const titleStyle1 = title.length < 25 ? content : content.substring(0,25) + ' ... '
-  // const titleStyle2 = title.length < 15 ? content : content.substring(0,15) + ' ... '
-
   return (
     <Card className={classes.root}>
       <Link color='inherit' style={{textDecoration:'none'}} href={`/${slug}/detail/`} >
