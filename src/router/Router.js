@@ -10,19 +10,36 @@ import LoginPage from '../pages/LoginPage';
 import PostPage from '../pages/PostPage';
 import UpdatePage from '../pages/UpdatePage';
 
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-const AppRouter = () => {
-    return (
+
+function AppRouter(params) {
+  const {isLoggedIn, currentUser} = useContext(AuthContext);
+  console.log(isLoggedIn)
+  console.log(currentUser ? 'var':'yok')
+  console.log(localStorage.getItem("Token"))
+  return (
       <Router>
-        <Navbar />
-        <Switch>
-          <Route path="/" component={HomePage} exact />
-          <Route path="/:slug/detail" component={DetailPage} />
-          <Route path="/register" component={RegisterPage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/profile" component={ProfilePage} />
-          <Route path="/post" component={PostPage} />
-          <Route path="/update" component={UpdatePage} />
+          <Navbar/>
+          <Switch>
+          <Route exact path="/" component={HomePage} />
+                {
+                    !localStorage.getItem("Token")
+                    
+                    ?
+                    <>
+                        <Route exact path="/register" component={RegisterPage} />
+                        <Route exact path="/login" component={LoginPage} />
+                    </>
+                    :
+                    <> 
+          <Route exact path="/:slug/detail" component={localStorage.getItem("Token") ? DetailPage: LoginPage} />
+          <Route exact path="/profile" component={localStorage.getItem("Token") ? ProfilePage: LoginPage} />
+          <Route exact path="/post" component={localStorage.getItem("Token") ? PostPage: LoginPage} />
+          <Route exact path="/update" component={localStorage.getItem("Token") ? UpdatePage:LoginPage} />
+          </>
+                }
         </Switch>
         {/* <FootBar /> */}
       </Router>
@@ -30,3 +47,7 @@ const AppRouter = () => {
   };
   
   export default AppRouter;
+
+  
+
+                      
