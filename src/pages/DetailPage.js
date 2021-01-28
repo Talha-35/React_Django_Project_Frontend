@@ -23,8 +23,7 @@ const DetailPage = () => {
   const { slug } = useParams();
   const [postDetail, setPostDetail] = useState()
   const fetchData = async () => {
-    const res = await axios.get(`https://rd-restful-blog.herokuapp.com/${slug}/detail`)
-    // const res = await axios.get(`https://blog-backend-ysf.herokuapp.com/${slug}/detail`)
+    const res = await axios.get(`https://blog-backend-ysf.herokuapp.com/${slug}/detail`)
     setPostDetail(res?.data)
   }
 
