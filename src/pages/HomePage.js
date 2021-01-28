@@ -3,11 +3,7 @@ import Container from "@material-ui/core/Container";
 import CardList from '../components/CardList';
 import axios from 'axios';
 
-// const baseUrl =  'https://blog-backend-ysf.herokuapp.com/list/'
-const baseUrl =  'https://rd-restful-blog.herokuapp.com/list/'
-
-
-
+const baseUrl =  'https://blog-backend-ysf.herokuapp.com/list/'
 
 
 const HomePage = () => {
