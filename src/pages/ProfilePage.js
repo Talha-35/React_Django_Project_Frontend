@@ -9,7 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import CKEditor from "ckeditor4-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";

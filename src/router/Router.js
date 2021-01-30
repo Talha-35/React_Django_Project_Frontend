@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 import ProfilePage from "../pages/ProfilePage";
 import PostPage from "../pages/PostPage";
 import UpdatePage from "../pages/UpdatePage";
+import Pagination from "../pages/Pagination";
 
 
 function AppRouter(params) {
@@ -21,6 +22,7 @@ function AppRouter(params) {
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/:slug/detail" component={DetailPage} />
+        <Route exact path="/pagination" component={Pagination} />
 
         <Route
           exact

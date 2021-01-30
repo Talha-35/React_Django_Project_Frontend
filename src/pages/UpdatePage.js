@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
-
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -13,14 +12,12 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import CKEditor from "ckeditor4-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
 import { putDataWithToken } from "../helper/FetchData";
 import { toast } from "react-toastify";
 
-// import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
