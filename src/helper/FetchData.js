@@ -58,14 +58,14 @@ export const postDataLike = async (path, data) => {
 export const fetchDataDetail = async (slug) => {
   const Token= localStorage.getItem("Token")
  if (Token){
-     const res = await axios.get(`https://rd-restful-blog.herokuapp.com/${slug}/detail`,{
+     const res = await axios.get(`https://blog-backend-ysf.herokuapp.com/${slug}/detail`,{
      headers: {
        "Authorization": `Token ${Token}`,
      }
    })
    return res?.data
  }else{
-   const res = await axios.get(`https://rd-restful-blog.herokuapp.com/${slug}/detail`)
+   const res = await axios.get(`https://blog-backend-ysf.herokuapp.com/${slug}/detail`)
    return res?.data
  }
 
