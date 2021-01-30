@@ -18,7 +18,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Collapse from '@material-ui/core/Collapse';
 import Badge from '@material-ui/core/Badge';
 import moment from 'moment';
-import { postDataWithToken} from "../helper/FetchData"
+import { postDataWithToken, postDataLike} from "../helper/FetchData"
 import { toast, ToastContainer } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
@@ -26,10 +26,10 @@ import TextField from '@material-ui/core/TextField';
 
 import Button from '@material-ui/core/Button';
 import SendIcon from "@material-ui/icons/Send";
-import Link from '@material-ui/core/Link';
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { InsertLinkRounded } from '@material-ui/icons';
   
   
 
@@ -85,9 +85,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function CardDetail({post, fetchData}) {
+  const [liked, setLiked] = useState(false)
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const [comment, setComment] = useState('')
   const history = useHistory()
 
   const handleExpandClick = () => {
@@ -106,14 +106,6 @@ export default function CardDetail({post, fetchData}) {
     content: "",
   };
 
-  
-
-  // const onComment=(e) =>{
-  //   let value= e.target.value
-  //   setComment(value)
-  //   console.log(comment)
-  // }
-
   const onSubmit = (values) =>{
     postDataWithToken(`https://blog-backend-ysf.herokuapp.com/${post.slug}/comment/`, values)
     .then((data) => { 
@@ -125,12 +117,26 @@ export default function CardDetail({post, fetchData}) {
       toast.error(err.message || " an error occured");      
     });
   }
-
+  
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit,
   });
+
+  const like = () =>{
+    postDataLike(`https://blog-backend-ysf.herokuapp.com/${post.slug}/like/`)
+    .then((data) =>{
+      fetchData()
+      history.push(`/${post.slug}/detail/`);
+      console.log(data)
+      if(data === 201) {
+        setLiked(true) 
+      } else {
+        setLiked(false)
+      }
+    })
+  }
  
 
   return (
@@ -157,9 +163,9 @@ export default function CardDetail({post, fetchData}) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton  aria-label="add to favorites">
           <Badge badgeContent={post?.like_count} color="secondary">
-            <FavoriteIcon />
+            <FavoriteIcon onClick={like} color={liked ? 'secondary' : ''} />
           </Badge>
         </IconButton>
         <IconButton aria-label="Visibility">
@@ -225,12 +231,9 @@ export default function CardDetail({post, fetchData}) {
           {post?.comments.map((comment, index) =>{
             return (
               <Typography key={index} paragraph><b>{comment.content}</b> comment by <i>{comment.user}</i> at {moment(comment.time).startOf('hour').fromNow()}</Typography>
-
             )
             })
           }
-          
-          
         </CardContent>
       </Collapse>
     </Card>
