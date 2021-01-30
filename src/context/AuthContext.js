@@ -6,6 +6,8 @@ function AuthContextProvider({ children }) {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState();
 
+
+
   return (
     <AuthContext.Provider value={{ isLoggedIn, setLoggedIn, setCurrentUser, currentUser }}>
       {children}
