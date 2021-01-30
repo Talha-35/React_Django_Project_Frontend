@@ -39,3 +39,18 @@ export const putDataWithToken = async (path, data) => {
     console.error(error);
   }
 };
+
+export const postDataLike = async (path, data) => {
+  try {
+    const Token = localStorage.getItem("Token");
+    const response = await axios.post(path, data,{
+      headers: {
+        Authorization: `Token ${Token}`,
+      },
+    });
+
+    return response?.status;
+  } catch (error) {
+    console.error(error);
+  }
+};
