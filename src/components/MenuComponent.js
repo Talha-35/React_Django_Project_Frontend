@@ -13,7 +13,6 @@ import Modal from "@material-ui/core/Modal";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useHistory } from "react-router-dom";
 
-// STYLE
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
