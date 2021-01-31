@@ -5,35 +5,28 @@ import axios from "axios";
 import {AuthContext} from "../context/AuthContext"
 
 const HomePage = () => {
-  const [postData, setPostData] = useState([]);
+  // const [postData, setPostData] = useState([]);
   const {postList, setPostList, fetchDataList}=useContext(AuthContext)
 
-  async function fetchData() {
-    try {
-      const results = await axios.get(
-        "https://blog-backend-ysf.herokuapp.com/list/"
-      );
-      setPostData(results?.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // async function fetchData() {
+  //   try {
+  //     const results = await axios.get(
+  //       "https://blog-backend-ysf.herokuapp.com/list/"
+  //     );
+  //     setPostData(results?.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
-  fetchDataList()
-  .then((data) => {
-    setPostList(data)
-    })
-    .catch((err) => {
-      console.log(err)   
-    });
-
+  // console.log(postList)
   useEffect(() => {
-    fetchData();
-  }, [postList]);
+    fetchDataList();
+  }, []);
 
   return (
     <Container>
-      <CardList postData={postData} />
+      <CardList postData={postList} />
     </Container>
   );
 };
