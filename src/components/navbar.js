@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext , useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -84,6 +84,7 @@ export default function NavBar() {
   let history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [login, setIsLogin] = React.useState(null);
   const {currentUser, setCurrentUser } = useContext(AuthContext);
 
   const handleMenu = (event) => {
@@ -94,7 +95,7 @@ export default function NavBar() {
     if (path === "") {
       postLogout();
     }
-    history.push(path);
+    history.push("/");
   };
   const open = Boolean(anchorEl);
 
@@ -107,8 +108,11 @@ export default function NavBar() {
     localStorage.setItem("Token", "");
     localStorage.setItem("currentUser", "");
     localStorage.setItem("isLoggedIn", false);
+    setIsLogin(false)
     history.push("/");
   };
+
+
 
   return (
     <div className={classes.root}>
