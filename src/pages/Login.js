@@ -79,21 +79,16 @@ export default function SignIn() {
     const user=values.username
     fetchDataLogin("https://blog-backend-ysf.herokuapp.com/auth/login/", values)
     .then((data) => {
-        
         localStorage.setItem("currentUser", values.username)
         localStorage.setItem("isLoggedIn", true)
         localStorage.setItem("Token", data.key)
         setLogged(true)
-        console.log(isLogged)
         if (isLogged){
           setCurrentUser(user)
-          console.log(currentUser)
-          console.log(isLogged)
+          setLogged(false)
         }
-        
+        setLogged(true)
         history.push("/");
-          
-        
       })
       .catch((err) => {
         toast.error("Please check your username and password");      
@@ -107,7 +102,7 @@ export default function SignIn() {
   });
 
   useEffect(() => {
-    
+
   }, [currentUser, isLogged])
 
   return (

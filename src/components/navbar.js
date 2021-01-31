@@ -108,11 +108,13 @@ export default function NavBar() {
     localStorage.setItem("Token", "");
     localStorage.setItem("currentUser", "");
     localStorage.setItem("isLoggedIn", false);
-    setIsLogin(false)
     history.push("/");
+    setIsLogin(true)
   };
 
-
+// useEffect(() => {
+  
+// }, [login])
 
   return (
     <div className={classes.root}>

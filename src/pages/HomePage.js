@@ -56,20 +56,16 @@ const HomePage = () => {
       return (
         <div className={classes.container} >
         <img className={classes.styleLogo} src={logo} alt="loading..." />
-
         </div>
       )
-
-     
     }
+
     else 
     return(
     <Container>
       <PaginatPage postsPerPage={postsPerPage} 
       totalPosts={postData.length} 
       paging={paginate} />
-
-
       <CardList postData={currentPosts} />
     </Container>
     )

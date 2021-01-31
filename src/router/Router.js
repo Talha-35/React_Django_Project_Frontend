@@ -7,8 +7,6 @@ import Login from "../pages/Login";
 import ProfilePage from "../pages/ProfilePage";
 import PostPage from "../pages/PostPage";
 import UpdatePage from "../pages/UpdatePage";
-import Pagination from "../pages/Pagination";
-
 
 function AppRouter(params) {
   
@@ -22,7 +20,7 @@ function AppRouter(params) {
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/:slug/detail" component={DetailPage} />
-        <Route exact path="/pagination" component={Pagination} />
+        {/* <Route exact path="/pagination" component={Pagination} /> */}
 
         <Route
           exact
@@ -40,18 +38,6 @@ function AppRouter(params) {
           component={localStorage.getItem("Token") ? UpdatePage : Login}
         />
 
-        {/* <Route exact path="/forgot-password" component={ForgotPassword} /> */}
-        {/* <Route
-                  exact
-                  path="/user/:id"
-                  component={currentUser ? UserDetail : Signin}
-              />
-              <Route
-                  exact
-                  path="/user/:id/post"
-                  component={currentUser ? UserPost : Signin}
-              />
-              <Route path="/" component={Main} /> */}
       </Switch>
     </Router>
   );
