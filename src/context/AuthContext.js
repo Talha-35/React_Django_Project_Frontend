@@ -8,9 +8,15 @@ function AuthContextProvider(props) {
   const [postList, setPostList] = useState();
   const [currentUser, setCurrentUser] = useState(null);
 
-  const fetchDataList = async (data) => {
-    const res = await axios.get('https://blog-backend-ysf.herokuapp.com/list/', data)
-    return res?.data
+  const fetchDataList = async () => {
+    try {
+      const results = await axios.get(
+        "https://blog-backend-ysf.herokuapp.com/list/"
+      );
+      setPostList(results?.data);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const fetchDataLogin = async (path, data) => {
